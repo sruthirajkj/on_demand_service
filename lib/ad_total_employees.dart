@@ -11,6 +11,9 @@ class TotalEmployees extends StatefulWidget {
 }
 
 class _TotalEmployeesState extends State<TotalEmployees> {
+  deleteemployee( String id){
+    FirebaseFirestore.instance.collection("employee").doc(id).delete().then((value) {print("emplyee deleted");});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +38,7 @@ class _TotalEmployeesState extends State<TotalEmployees> {
               if (snapshot.hasData) {
                 return Expanded(
                   child: ListView.builder(
-                      itemCount: 20,
+                      itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(
@@ -44,7 +47,20 @@ class _TotalEmployeesState extends State<TotalEmployees> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) {
-                                  return EmployeesDetails();
+                                  return EmployeesDetails(
+                                    name:snapshot.data!.docs[index].data()["name"],
+                                    mobile:snapshot.data!.docs[index].data()["mobile"],
+                                    gmail:snapshot.data!.docs[index].data()["gmail"],
+                                    address:snapshot.data!.docs[index].data()["address"],
+                                      image:snapshot.data!.docs[index].data()["image"],
+                                    click: snapshot.data!.docs[index].data()[ "deep cleaning"],
+                                    click1: snapshot.data!.docs[index].data()[ "car wash"],
+                                    click2: snapshot.data!.docs[index].data()[ "Kitchen cleaning"],
+                                    click3: snapshot.data!.docs[index].data()[ "Loundry"],
+                                    id:snapshot.data!.docs[index].id,
+
+
+                                  );
                                 }),
                               );
                             },
@@ -55,9 +71,12 @@ class _TotalEmployeesState extends State<TotalEmployees> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.green,
-                                    image: DecorationImage(
+                                    image: DecorationImage(fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            "https://media.istockphoto.com/id/1329006104/photo/cheerful-young-housewife-holding-bucket-with-cleaning-supplies.jpg?s=612x612&w=0&k=20&c=9sYffJHz7gGHfr78k7DITVDqjNfPyA5KDUo2aKi3xoQ="))),
+                                            snapshot
+                                                .data!.docs[index]
+                                                .data()["image"]
+                                        ))),
                               ),
                               title: Padding(
                                 padding: const EdgeInsets.only(right: 0.0),
@@ -72,15 +91,18 @@ class _TotalEmployeesState extends State<TotalEmployees> {
                                 "Service",
                                 style: TextStyle(fontSize: 12),
                               ),
-                              trailing: Container(
-                                  height: 30,
-                                  width: 80,
-                                  child: Center(child: Text("Delete")),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      border: Border.all(
-                                          width: 2, color: Colors.green))),
+                              trailing: InkWell(onTap: ()
+                                {deleteemployee(snapshot.data!.docs[index].id);},
+                                child: Container(
+                                    height: 30,
+                                    width: 80,
+                                    child: Center(child: Text("Delete")),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(10)),
+                                        border: Border.all(
+                                            width: 2, color: Colors.green))),
+                              ),
                             ),
                           ),
                         );

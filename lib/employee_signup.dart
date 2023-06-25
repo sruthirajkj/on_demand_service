@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Employee_profileview_ui.dart';
 
@@ -28,6 +29,8 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
   bool click1 = false;
   bool click2 = false;
   bool click3 = false;
+  bool section=true;
+
   File? pickimage;
   uploadimage() async {
     ImagePicker imagepick = ImagePicker();
@@ -35,31 +38,63 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
     if (image != null) {
       pickimage = File(image.path);
       setState(() {
-        employeedetails();
+
       });
     }
   }
 
-  employeedetails() async {
+  employeedetails() async
+  { try {
     var imagedetails =
         FirebaseStorage.instance.ref().child("image/${pickimage!.path}");
     await imagedetails.putFile(pickimage!);
     var url = await imagedetails.getDownloadURL();
-    await FirebaseFirestore.instance.collection("login").add({
+   var login = await FirebaseFirestore.instance.collection("login").add({
+     "image": url,
       "name": employeenamecontroller.text,
+      "password": employeepasswordcontroller.text,
       "mobile": employeenumbercontroller.text,
       "gmail": employeegmailcontroller.text,
       "type": "employee"
     });
-    await FirebaseFirestore.instance.collection("employee").add({
+    var employeeid=await FirebaseFirestore.instance.collection("employee").add({
       "name": employeenamecontroller.text,
       "mobile": employeenumbercontroller.text,
       "password": employeepasswordcontroller.text,
       "address": employeeaddresscontroller.text,
       "gmail": employeegmailcontroller.text,
+      "deep cleaning":click,
+      "car wash":click1,
+      "Kitchen cleaning":click2,
+      "Loundry":click3,
+      "section":true,
       "image": url,
-      "type": "employee"
+      "type": "employee",
+      "loginDocID":login.id
+
+
+
+
     });
+    await employeesharedprf( url, employeeid.id);
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) {
+        return EmployeeProfilePage();
+      }),
+    );
+  }on Exception catch (e) {
+    print("error is $e");
+    // TODO
+  }
+  }
+  employeesharedprf(String url,eid)async{
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    sharedPreferences.setString("name", employeenamecontroller.text);
+    sharedPreferences.setString("mobile", employeenumbercontroller.text);
+    sharedPreferences.setString("gmail", employeegmailcontroller.text);
+    sharedPreferences.setString("image",url );
+    sharedPreferences.setString("employeeid", eid);
+
   }
 
   @override
@@ -100,7 +135,13 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                         width: 140,
                         height: 140,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.green),
+                            image: DecorationImage(fit: BoxFit.cover,
+                                image: pickimage == null
+                                    ? NetworkImage(
+                                    "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png")
+                                    : FileImage(pickimage!) as ImageProvider),
+                            shape: BoxShape.circle,
+                            color: Colors.green),
                       ),
                     ),
                     Align(
@@ -148,8 +189,11 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                 child: TextFormField(
                   controller: employeenumbercontroller,
                   validator: (m) {
-                    if (m!.isEmpty) {
-                      return "please enter your name";
+                    if (m!.length<10) {
+                      return "please enter your number";
+                    }
+                    if (m!.length>10) {
+                      return "please enter your number";
                     }
                   },
                   decoration: InputDecoration(
@@ -173,7 +217,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                   controller: employeepasswordcontroller,
                   validator: (p) {
                     if (p!.isEmpty) {
-                      return "please enter your name";
+                      return "please enter your password";
                     }
                   },
                   decoration: InputDecoration(
@@ -198,7 +242,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                   controller: employeegmailcontroller,
                   validator: (g) {
                     if (g!.isEmpty) {
-                      return "please enter your name";
+                      return "please enter your mail id";
                     }
                   },
                   decoration: InputDecoration(
@@ -224,7 +268,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                   controller: employeeaddresscontroller,
                   validator: (a) {
                     if (a!.isEmpty) {
-                      return "please enter your name";
+                      return "please enter your address";
                     }
                   },
                   decoration: InputDecoration(
@@ -264,6 +308,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                         value: click,
                         onChanged: (v) {
                           setState(() {
+                            section=true;
                             click = v!;
                           });
                         }),
@@ -279,6 +324,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                         value: click1,
                         onChanged: (w) {
                           setState(() {
+                            section=true;
                             click1 = w!;
                           });
                         }),
@@ -299,6 +345,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                         value: click2,
                         onChanged: (v) {
                           setState(() {
+                            section=true;
                             click2 = v!;
                           });
                         }),
@@ -314,6 +361,7 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
                         value: click3,
                         onChanged: (w) {
                           setState(() {
+                            section=true;
                             click3 = w!;
                           });
                         }),
@@ -325,17 +373,17 @@ class _EmployeeSighupPageState extends State<EmployeeSighupPage> {
               padding: const EdgeInsets.only(
                   top: 15.0, bottom: 8, left: 12, right: 12),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   bool validate = employeekey.currentState!.validate();
                   if (validate == false) {
                     return;
-                  }
-                  employeedetails();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return EmployeeProfileviewUI();
-                    }),
-                  );
+                  }else{
+                    if(section==true){
+
+                   await  employeedetails();
+
+                  }}
+
                 },
                 child: Text(
                   "Sign Up",

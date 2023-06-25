@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -28,32 +29,57 @@ class _SignUpPageState extends State<SignUpPage> {
     if (image != null) {
       pickImage = File(image.path);
       setState(() {
-        customerdetails();
+        // customerdetails();
       });
     }
   }
 
   customerdetails() async {
-    var imagedetails =
-        await FirebaseStorage.instance.ref().child("image/${pickImage!.path}");
-    await imagedetails.putFile(pickImage!);
-    var url = await imagedetails.getDownloadURL();
-    await FirebaseFirestore.instance.collection("login").add({
-      "image": "gg",
-      "name": usernamecontroller.text,
-      "mobile": numbercontroller.text,
-      "gmail": gmailcontroller.text,
-      "type": "customer",
-    });
-    await FirebaseFirestore.instance.collection("customer").add({
-      "name": usernamecontroller.text,
-      "mobile": numbercontroller.text,
-      "password": passwordcontroller.text,
-      "gmail": gmailcontroller.text,
-      "address": addresscontroller.text,
-      "image": url,
-      "type": "customer"
-    });
+    try {
+      var imagedetails = await FirebaseStorage.instance
+          .ref()
+          .child("image/${pickImage!.path}");
+      await imagedetails.putFile(pickImage!);
+      var url = await imagedetails.getDownloadURL();
+     var login1= await FirebaseFirestore.instance.collection("login").add({
+        "image": url,
+        "name": usernamecontroller.text,
+        "password": passwordcontroller.text,
+        "mobile": numbercontroller.text,
+        "gmail": gmailcontroller.text,
+        "type": "customer",
+      });
+      print("image");
+    var customerid=  await FirebaseFirestore.instance.collection("customer").add({
+        "name": usernamecontroller.text,
+        "mobile": numbercontroller.text,
+        "password": passwordcontroller.text,
+        "gmail": gmailcontroller.text,
+        "address": addresscontroller.text,
+        "image": url,
+        "type": "customer",
+      "loginDocID":login1.id
+      });
+      await sharedprf(url,customerid.id);
+      //print()
+
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) {
+          return HomePage();
+        }),
+      );
+    } on Exception catch (e) {
+      print("error is $e");
+      // TODO
+    }
+  }
+
+  sharedprf(String url,cid) async {
+    SharedPreferences sharedprf = await SharedPreferences.getInstance();
+   await sharedprf.setString("name", usernamecontroller.text);
+  await  sharedprf.setString("address", addresscontroller.text);
+   await sharedprf.setString("image", url);
+   await sharedprf.setString("customerid", cid);
   }
 
   @override
@@ -78,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
               padding: const EdgeInsets.only(top: 20.0, left: 30, bottom: 20),
               child: Container(
                 width: 140,
-                height: 140,  
+                height: 140,
                 child: Stack(
                   children: [
                     InkWell(
@@ -89,8 +115,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         width: 140,
                         height: 140,
                         //child: Image.file(pickImage!),
-                        decoration: BoxDecoration( 
-                            shape: BoxShape.circle, color: Colors.green),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(fit: BoxFit.cover,
+                                image: pickImage == null
+                                    ? NetworkImage(
+                                        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png")
+                                    : FileImage(pickImage!) as ImageProvider),
+                            shape: BoxShape.circle,
+                            color: Colors.green),
                       ),
                     ),
                     Align(
@@ -138,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: TextFormField(
                   controller: numbercontroller,
                   validator: (m) {
-                    if (m!.isEmpty) {
+                    if (m!.length > 10) {
                       return "please enter your number";
                     }
                     if (m.length < 10) {
@@ -246,12 +278,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     return;
                   }
                   customerdetails();
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return HomePage();
-                    }),
-                  );
                 },
                 child: Text(
                   "Sign Up",

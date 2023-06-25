@@ -15,7 +15,9 @@ class HomePageUI extends StatefulWidget {
 
 class _HomePageUIState extends State<HomePageUI> {
   int selectedindex = 0;
-  List page = [HomePage(),CustomerBookingHistory(), CustomerNotificationPage(),AllSevices()];
+  List page = [HomePage(),
+    CustomerBookingHistory(),
+    CustomerNotificationPage(),AllSevices()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

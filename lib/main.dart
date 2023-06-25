@@ -6,6 +6,7 @@ import 'package:housekeeping/customer_signup.dart';
 import 'package:housekeeping/ad_total_customers.dart';
 import 'package:housekeeping/ad_total_employees.dart';
 import 'package:housekeeping/customer_payment.dart';
+import 'package:housekeeping/service_details.dart';
 
 import 'Employee_profileview_ui.dart';
 import 'administrator.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:  TotalCustomers  (),
+      home:LoginPage (),
     );
   }
 }

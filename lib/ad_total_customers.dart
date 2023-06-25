@@ -11,6 +11,9 @@ class TotalCustomers extends StatefulWidget {
 }
 
 class _TotalCustomersState extends State<TotalCustomers> {
+  deletecustomer( String id){
+    FirebaseFirestore.instance.collection("customer").doc(id).delete().then((value) {print("costomer deleted");});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +48,15 @@ class _TotalCustomersState extends State<TotalCustomers> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) {
                                   return CustomerDetails(
-                                    // name:nm.text,
-                                    // mobile:number.text,
-                                    // gmail:mail.text,
-                                    // address:addres.text
+                                     name:snapshot.data!.docs[index].data()["name"],
+                                     mobile:snapshot.data!.docs[index].data()["mobile"],
+                                     gmail:snapshot.data!.docs[index].data()["gmail"],
+                                     address:snapshot.data!.docs[index].data()["address"],
+                                    image:snapshot.data!.docs[index].data()["image"],
+                                    id:snapshot.data!.docs[index].id,
+
+                                    //section:snapshot.data!.docs[index].data()[''],
+
                                   );
                                 }),
                               );
@@ -60,26 +68,28 @@ class _TotalCustomersState extends State<TotalCustomers> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.green,
-                                    // image: DecorationImage(
-                                    //     image: FileImage(
-                                    //         snapshot
-                                    //         .data!.docs[index]
-                                    //         .data()["image"]
-                                    //     ))
+                                    image: DecorationImage(fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                            snapshot
+                                            .data!.docs[index]
+                                            .data()["image"]
+                                        ))
                                 ),
                               ),
                               title: Text(snapshot.data!.docs[index]
                                   .data()["name"]
                                   .toString()),
-                              trailing: Container(
-                                  height: 30,
-                                  width: 80,
-                                  child: Center(child: Text("Delete")),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      border: Border.all(
-                                          width: 2, color: Colors.green))),
+                              trailing: InkWell(onTap:() {deletecustomer(snapshot.data!.docs[index].id);},
+                                child: Container(
+                                    height: 30,
+                                    width: 80,
+                                    child: Center(child: Text("Delete")),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(10)),
+                                        border: Border.all(
+                                            width: 2, color: Colors.green))),
+                              ),
                             ),
                           ),
                         );
