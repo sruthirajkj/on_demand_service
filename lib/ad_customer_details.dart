@@ -89,52 +89,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const  EdgeInsets.only(top: 2.0,bottom:2,left: 20,right: 20),
-                //   child: Row(
-                //     children: [
-                //       Text("section:", style: TextStyle(fontSize: 20)),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 2.0,bottom:2,left: 20,right: 20),
-                //   child: Row(
-                //     children: [
-                //       Text("Selected date slote:", style: TextStyle(fontSize: 20)),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 2.0,bottom:2,left: 20,right: 20),
-                //   child: Row(
-                //     children: [
-                //       Text("Selected time slote:", style: TextStyle(fontSize: 20)),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 2.0,bottom:2,left: 20,right: 20),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         "Payment:",
-                //         style: TextStyle(fontSize: 20),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 2.0,bottom:2,left: 20,right: 20),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         "Rating:",
-                //         style: TextStyle(fontSize: 20),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 35.0, left: 20, right: 20),

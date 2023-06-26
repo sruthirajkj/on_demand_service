@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+class bookingpage extends StatefulWidget {
+  const bookingpage({Key? key}) : super(key: key);
 
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<bookingpage> createState() => _bookingpageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _bookingpageState extends State<bookingpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

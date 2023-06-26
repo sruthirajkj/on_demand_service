@@ -160,7 +160,7 @@ class _EmployeeProfilePageState extends State<EmployeeProfilePage> {
                         .collection("Appointment")
                         .where("employeeId", isEqualTo: ids).snapshots(),
                     builder: (context, snapshot) {
-                      print(ids);
+                     // print(ids);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                           child: CircularProgressIndicator(),
@@ -201,10 +201,6 @@ class _EmployeeProfilePageState extends State<EmployeeProfilePage> {
                                               return Text("");
                                           }),
                                     ),
-                                    //   // Text(
-                                    //   //   "service type ",
-                                    //   //   style: TextStyle(fontSize: 18),
-                                    //   // ),
 
                                     trailing:snapshot.data!.docs[index].data()["status"]=="pending"? Column(
                                         mainAxisAlignment:

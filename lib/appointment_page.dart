@@ -42,7 +42,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
   shredprefcustomerid() async {
     final SharedPreferences idcustomer = await SharedPreferences.getInstance();
     var n = await idcustomer.getString("customerid");
-    print(n);
+    //print(n);
     setState(() {
       custmid = n;
     });
@@ -58,8 +58,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
 
   appointmentdetails() async {
     try {
-      // customerReference customerIdref=FirebaseFirestore.instance.collection("customer");
-      // customerreference customerid=customerIdref.doc.(customerId);
+
       FirebaseFirestore.instance.collection("Appointment").add({
         "address": addresscontroller.text,
         "time": timecontroller.text,
@@ -75,12 +74,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
     }
   }
 
-  // locationpick() async {
-  //   LocationData? locations = await Location().getLocation();
-  //   setState(() {
-  //     location = locations.longitude.toString();
-  //   });
-  // }
+
 
   datepick() async {
     DateTime? pickeddate = await showDatePicker(
@@ -94,15 +88,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
     });}
 
   }
-  // getFormatedDate(_date) {
-  //   var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
-  //   var inputDate = inputFormat.parse(_date);
-  //   var outputFormat = DateFormat('dd/MM/yyyy');
-  //   return outputFormat.format(inputDate);
-  //  setState(() {
-  //    date=outputFormat.toString();
-  //  });
-  // }
+
 
   timepick() async {
     TimeOfDay? pickedtime =
@@ -171,11 +157,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                     return "please enter your address";
                   }
                 },
-                // readOnly: true,
-                // onTap: () {
-                //   locationpick();
-                //   addresscontroller.text = location;
-                // },
+
                 decoration: InputDecoration(
                   hintText: "Address",
                   labelText: "Address",
@@ -193,7 +175,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                   const EdgeInsets.only(top: 8, bottom: 8, left: 20, right: 20),
               child: TextFormField(
                 onTap: () {
-                  // getFormatedDate();
+
 
                     datepick();
 
@@ -288,11 +270,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
 
                     }
 
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(builder: (context) {
-                      //     return UserPaymentPage();
-                      //   }),
-                      // );
+
                     },
                     child: Container(
                       height: 50,

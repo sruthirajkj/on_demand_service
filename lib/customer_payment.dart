@@ -89,15 +89,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                 }
               },
               decoration: InputDecoration(
-                // labelText: "Google pay",
-                // prefixIcon: Container(
-                //   width: 20,
-                //   height: 20,
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.all(Radius.circular(20)),
-                //       image: DecorationImage(
-                //           image: AssetImage("assetfile/googlepay.jpeg"))),
-                // ),
+
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.green)),
@@ -128,15 +120,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                 }
               },
               decoration: InputDecoration(
-                // labelText: "Phonepe",
-                // prefixIcon: Container(
-                //   width: 20,
-                //   height: 20,
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.all(Radius.circular(20)),
-                //       image: DecorationImage(
-                //           image: AssetImage("assetfile/phonepay.png"))),
-                // ),
+
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.green)),
@@ -174,10 +158,6 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
 
                     widget.amount = "payed";
 
-                  // var id = snapshot
-                  //     .data!.docs[index].id
-                  //     .toString();
-                  // await payed(id);
 
                 },
                 child: Text(

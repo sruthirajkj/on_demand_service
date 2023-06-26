@@ -86,7 +86,7 @@ class _CustomerBookingHistoryState extends State<CustomerBookingHistory> {
                                           .data()["employeeId"])
                                       .snapshots(),
                                   builder: (context, AsyncSnapshot snapshot1) {
-                                    print(ide);
+                                   // print(ide);
                                     if (snapshot1.hasData) {
                                       return Row(
                                         mainAxisAlignment:

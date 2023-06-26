@@ -303,8 +303,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-// readfn() async {
-//   var fulldata = await FirebaseFirestore.instance.collection("details").get();
-//   var name = fulldata.docs[0].data()["name"];
-//   print(name);
-// }
+

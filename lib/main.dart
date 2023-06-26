@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:housekeeping/ad_payment_page.dart';
+//import 'package:housekeeping/ad_payment_page.dart';
 import 'package:housekeeping/ad_review_page.dart';
 import 'package:housekeeping/customer_signup.dart';
 import 'package:housekeeping/ad_total_customers.dart';
