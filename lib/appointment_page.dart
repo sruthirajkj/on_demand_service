@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -84,7 +86,9 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
         lastDate: DateTime(2025));
 
     if(pickeddate!=null){setState(() {
-      date = pickeddate.toString();
+
+
+      datecontroller.text= DateFormat.yMMMd().format(pickeddate);
     });}
 
   }
@@ -94,7 +98,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
     TimeOfDay? pickedtime =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
     setState(() {
-      time = pickedtime.toString();
+      timecontroller.text= pickedtime.toString().split("(").last.split(")").first;
     });
   }
   var appointmentkey = GlobalKey<FormState>();
